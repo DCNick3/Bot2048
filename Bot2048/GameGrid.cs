@@ -14,14 +14,14 @@ namespace Bot2048
         Right,
     }
 
-    public class GameArea : ICloneable
+    public class GameGrid : ICloneable
     {
-        public GameArea(int width, int height)
+        public GameGrid(int width, int height)
         {
             gameArea = new Tile[width, height];
-            for (int i = 0; i < width; i++)
-                for (int j = 0; j < height; j++)
-                    gameArea[i, j] = new Tile(0);
+
+            foreach (var tile in EnumerateTiles())
+                this[tile] = new Tile(0);
         }
 
         private Tile[,] gameArea;
@@ -53,6 +53,21 @@ namespace Bot2048
         public int Width { get { return gameArea.GetLength(0); } }
         public int Height { get { return gameArea.GetLength(1); } }
         public Vector2 Size { get { return new Vector2(Width, Height); } }
+        public int Score { get; private set; }
+        public bool IsGameOver
+        {
+            get
+            {
+                foreach (var d in new Direction[] 
+                    { Direction.Up, Direction.Down, Direction.Left, Direction.Right })
+                {
+                    GameGrid g = this.Clone();
+                    if (g.Swipe(d))
+                        return false;
+                }
+                return true;
+            }
+        }
 
         public bool Swipe(Direction direction)
         {
@@ -100,7 +115,7 @@ namespace Bot2048
                     throw new NotImplementedException();
             }
 
-            int stacked = 0;
+            bool result = false;
             for (Vector2 v1 = v10; v1 != v11; v1 += dv1)
             {
                 for (Vector2 v2 = v20; v2 != v21; v2 += dv2)
@@ -113,6 +128,7 @@ namespace Bot2048
                         this[v - dv2] = this[v];
                         this[v] = new Tile(0);
                         v2 = v20 - dv2;
+                        result = true;
                         continue;
                     }
                     if (this[v - dv2] == this[v] && !(this[v - dv2].WasStacked || this[v].WasStacked))
@@ -124,7 +140,8 @@ namespace Bot2048
 
                         this[v] = new Tile(0);
                         v2 = v20 - dv2;
-                        stacked++;
+                        result = true;
+                        Score += b.Power;
                         continue;
                     }
                 }
@@ -138,7 +155,14 @@ namespace Bot2048
                     b.WasStacked = false;
                     this[i, j] = b;
                 }
-            return stacked != 0;
+            return result;
+        }
+
+        public IEnumerable<Vector2> EnumerateTiles()
+        {
+            for (int i = 0; i < Width; i++)
+                for (int j = 0; j < Height; j++)
+                    yield return new Vector2(i, j);
         }
 
         public string Dump()
@@ -156,9 +180,9 @@ namespace Bot2048
             return sb.ToString();
         }
 
-        public GameArea Clone()
+        public GameGrid Clone()
         {
-            return new GameArea(Width, Height)
+            return new GameGrid(Width, Height)
             {
                 gameArea = (Tile[,])gameArea.Clone(),
             };
@@ -166,7 +190,7 @@ namespace Bot2048
 
         object ICloneable.Clone()
         {
-            return new GameArea(Width, Height)
+            return new GameGrid(Width, Height)
             {
                 gameArea = (Tile[,])gameArea.Clone(),
             };

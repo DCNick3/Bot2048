@@ -1,0 +1,124 @@
+﻿<Window x:Class="Bot2048.WPF.MainWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Bot2048.WPF"
+             mc:Ignorable="d" 
+            Title="2048~">
+    <Grid Background="#FBF8EF">
+        <Viewbox Stretch="Uniform" x:Name="MainView">
+            <Grid Width="800" Height="800" Margin="40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="10"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="10"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.Resources>
+                    <Style TargetType="Rectangle" x:Key="tileStyle">
+                        <Setter Property="Fill" Value="#CDC0B4" />
+                        <Setter Property="Margin" Value="10" />
+                        <Setter Property="RadiusX" Value="8" />
+                        <Setter Property="RadiusY" Value="8" />
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="VerticalAlignment" Value="Stretch"/>
+                    </Style>
+                </Grid.Resources>
+                <Rectangle Grid.ColumnSpan="6" Grid.RowSpan="6" Fill="#BBADA0" RadiusX="1.5px" RadiusY="1.5px"/>
+                <Rectangle x:Name="brect_1_1"  Grid.Column="1" Grid.Row="1" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="brect_1_2"  Grid.Column="2" Grid.Row="1" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="brect_1_3"  Grid.Column="3" Grid.Row="1" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="brect_1_4"  Grid.Column="4" Grid.Row="1" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="brect_2_1"  Grid.Column="1" Grid.Row="2" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="brect_2_2"  Grid.Column="2" Grid.Row="2" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="brect_2_3"  Grid.Column="3" Grid.Row="2" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="brect_2_4"  Grid.Column="4" Grid.Row="2" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="brect_3_1"  Grid.Column="1" Grid.Row="3" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="brect_3_2"  Grid.Column="2" Grid.Row="3" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="brect_3_3"  Grid.Column="3" Grid.Row="3" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="brect_3_4"  Grid.Column="4" Grid.Row="3" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="brect_4_1"  Grid.Column="1" Grid.Row="4" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="brect_4_2"  Grid.Column="2" Grid.Row="4" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="brect_4_3"  Grid.Column="3" Grid.Row="4" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="brect_4_4"  Grid.Column="4" Grid.Row="4" Style="{ StaticResource tileStyle}" />
+                
+                <Rectangle x:Name="rect_1_1"  Grid.Column="1" Grid.Row="1" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="rect_1_2"  Grid.Column="2" Grid.Row="1" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="rect_1_3"  Grid.Column="3" Grid.Row="1" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="rect_1_4"  Grid.Column="4" Grid.Row="1" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="rect_2_1"  Grid.Column="1" Grid.Row="2" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="rect_2_2"  Grid.Column="2" Grid.Row="2" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="rect_2_3"  Grid.Column="3" Grid.Row="2" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="rect_2_4"  Grid.Column="4" Grid.Row="2" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="rect_3_1"  Grid.Column="1" Grid.Row="3" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="rect_3_2"  Grid.Column="2" Grid.Row="3" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="rect_3_3"  Grid.Column="3" Grid.Row="3" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="rect_3_4"  Grid.Column="4" Grid.Row="3" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="rect_4_1"  Grid.Column="1" Grid.Row="4" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="rect_4_2"  Grid.Column="2" Grid.Row="4" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="rect_4_3"  Grid.Column="3" Grid.Row="4" Style="{ StaticResource tileStyle}" />
+                <Rectangle x:Name="rect_4_4"  Grid.Column="4" Grid.Row="4" Style="{ StaticResource tileStyle}" />
+
+                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                    <TextBlock x:Name="txt_1_1"></TextBlock>
+                </Viewbox>
+                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                    <TextBlock x:Name="txt_1_2"></TextBlock>
+                </Viewbox>
+                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                    <TextBlock x:Name="txt_1_3"></TextBlock>
+                </Viewbox>
+                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                    <TextBlock x:Name="txt_1_4"></TextBlock>
+                </Viewbox>
+                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                    <TextBlock x:Name="txt_2_1"></TextBlock>
+                </Viewbox>
+                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                    <TextBlock x:Name="txt_2_2"></TextBlock>
+                </Viewbox>
+                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                    <TextBlock x:Name="txt_2_3"></TextBlock>
+                </Viewbox>
+                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                    <TextBlock x:Name="txt_2_4"></TextBlock>
+                </Viewbox>
+                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                    <TextBlock x:Name="txt_3_1"></TextBlock>
+                </Viewbox>
+                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                    <TextBlock x:Name="txt_3_2"></TextBlock>
+                </Viewbox>
+                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                    <TextBlock x:Name="txt_3_3"></TextBlock>
+                </Viewbox>
+                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                    <TextBlock x:Name="txt_3_4"></TextBlock>
+                </Viewbox>
+                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                    <TextBlock x:Name="txt_4_1"></TextBlock>
+                </Viewbox>
+                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                    <TextBlock x:Name="txt_4_2"></TextBlock>
+                </Viewbox>
+                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                    <TextBlock x:Name="txt_4_3"></TextBlock>
+                </Viewbox>
+                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                    <TextBlock x:Name="txt_4_4"></TextBlock>
+                </Viewbox>
+            </Grid>
+        </Viewbox>
+    </Grid>
+</Window>

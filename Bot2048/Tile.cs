@@ -18,6 +18,7 @@
         }
 
         internal bool WasStacked { get; set; }
+        public int Power { get => value; }
 
         public override bool Equals(object obj)
         {
