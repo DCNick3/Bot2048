@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Bot2048.WPF"
              mc:Ignorable="d" 
-            Title="2048~">
+            Title="2048~" 
+       Mouse.MouseDown="Window_MouseDown">
     <Grid Background="#FBF8EF">
         <Viewbox Stretch="Uniform" x:Name="MainView">
             <Grid Width="800" Height="800" Margin="40">
@@ -35,7 +36,7 @@
                         <Setter Property="VerticalAlignment" Value="Stretch"/>
                     </Style>
                 </Grid.Resources>
-                <Rectangle Grid.ColumnSpan="6" Grid.RowSpan="6" Fill="#BBADA0" RadiusX="1.5px" RadiusY="1.5px"/>
+                <Rectangle Grid.ColumnSpan="6" Grid.RowSpan="6" Fill="#BBADA0" RadiusX="8px" RadiusY="8px"/>
                 <Rectangle x:Name="brect_1_1"  Grid.Column="1" Grid.Row="1" Style="{ StaticResource tileStyle}" />
                 <Rectangle x:Name="brect_1_2"  Grid.Column="2" Grid.Row="1" Style="{ StaticResource tileStyle}" />
                 <Rectangle x:Name="brect_1_3"  Grid.Column="3" Grid.Row="1" Style="{ StaticResource tileStyle}" />
@@ -73,49 +74,49 @@
                 <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
                     <TextBlock x:Name="txt_1_1"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                <Viewbox Grid.Column="2" Grid.Row="1" Margin="30" >
                     <TextBlock x:Name="txt_1_2"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                <Viewbox Grid.Column="3" Grid.Row="1" Margin="30" >
                     <TextBlock x:Name="txt_1_3"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                <Viewbox Grid.Column="4" Grid.Row="1" Margin="30" >
                     <TextBlock x:Name="txt_1_4"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                <Viewbox Grid.Column="1" Grid.Row="2" Margin="30" >
                     <TextBlock x:Name="txt_2_1"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                <Viewbox Grid.Column="2" Grid.Row="2" Margin="30" >
                     <TextBlock x:Name="txt_2_2"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                <Viewbox Grid.Column="3" Grid.Row="2" Margin="30" >
                     <TextBlock x:Name="txt_2_3"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                <Viewbox Grid.Column="4" Grid.Row="2" Margin="30" >
                     <TextBlock x:Name="txt_2_4"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                <Viewbox Grid.Column="1" Grid.Row="3" Margin="30" >
                     <TextBlock x:Name="txt_3_1"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                <Viewbox Grid.Column="2" Grid.Row="3" Margin="30" >
                     <TextBlock x:Name="txt_3_2"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                <Viewbox Grid.Column="3" Grid.Row="3" Margin="30" >
                     <TextBlock x:Name="txt_3_3"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                <Viewbox Grid.Column="4" Grid.Row="3" Margin="30" >
                     <TextBlock x:Name="txt_3_4"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                <Viewbox Grid.Column="1" Grid.Row="4" Margin="30" >
                     <TextBlock x:Name="txt_4_1"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                <Viewbox Grid.Column="2" Grid.Row="4" Margin="30" >
                     <TextBlock x:Name="txt_4_2"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                <Viewbox Grid.Column="3" Grid.Row="4" Margin="30" >
                     <TextBlock x:Name="txt_4_3"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                <Viewbox Grid.Column="4" Grid.Row="4" Margin="30" >
                     <TextBlock x:Name="txt_4_4"></TextBlock>
                 </Viewbox>
             </Grid>
