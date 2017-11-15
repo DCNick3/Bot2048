@@ -12,7 +12,7 @@ namespace Bot2048
         static void Main(string[] args)
         {
 
-            BotGameController botGame = new BotGameController(new Bots.RandomBot(), new GameParameters());
+            BotGameController botGame = new BotGameController(new Bots.NaiveBot(), new GameParameters());
             var rec = botGame.DoGame();
 
             var w = new WPF.MainWindow(rec);

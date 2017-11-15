@@ -54,6 +54,7 @@ namespace Bot2048
         public int Height { get { return gameArea.GetLength(1); } }
         public Vector2 Size { get { return new Vector2(Width, Height); } }
         public int Score { get; private set; }
+        public IReadOnlyList<Tuple<Vector2, Vector2>> LastSwipeTranslations { get; private set; }
         public bool IsGameOver
         {
             get
@@ -115,6 +116,8 @@ namespace Bot2048
                     throw new NotImplementedException();
             }
 
+            List<Tuple<Vector2, Vector2, Vector2>> combinations = new List<Tuple<Vector2, Vector2, Vector2>>();
+
             bool result = false;
             for (Vector2 v1 = v10; v1 != v11; v1 += dv1)
             {
@@ -125,7 +128,10 @@ namespace Bot2048
                         continue;
                     if (this[v - dv2].IsEmpty)
                     {
-                        this[v - dv2] = this[v];
+                        var b = this[v];
+                        b.Translation -= dv2;
+                        this[v - dv2] = b;
+
                         this[v] = new Tile(0);
                         v2 = v20 - dv2;
                         result = true;
@@ -136,16 +142,30 @@ namespace Bot2048
                         var b = this[v - dv2];
                         b.Increment();
                         b.WasStacked = true;
+                        Vector2 ca = v - dv2 - b.Translation;
                         this[v - dv2] = b;
 
+                        Vector2 cb = v - this[v].Translation;
                         this[v] = new Tile(0);
                         v2 = v20 - dv2;
                         result = true;
                         Score += b.Power;
+
+                        combinations.Add(new Tuple<Vector2, Vector2, Vector2>(ca, cb, v - dv2));
                         continue;
                     }
                 }
 
+            }
+
+            List<Tuple<Vector2, Vector2>> translations = new List<Tuple<Vector2, Vector2>>();
+
+            foreach (var c in combinations)
+            {
+                if (c.Item1 != c.Item3)
+                    translations.Add(new Tuple<Vector2, Vector2>(c.Item1, c.Item3 - c.Item1));
+                if (c.Item2 != c.Item3)
+                    translations.Add(new Tuple<Vector2, Vector2>(c.Item2, c.Item3 - c.Item2));
             }
 
             for (int i = 0; i < Width; i++)
@@ -153,8 +173,16 @@ namespace Bot2048
                 {
                     var b = this[i, j];
                     b.WasStacked = false;
+                    if (b.Translation != Vector2.Zero)
+                    {
+                        translations.Add(new Tuple<Vector2, Vector2>(new Vector2(i, j) - b.Translation, b.Translation));
+                        b.Translation = Vector2.Zero;
+                    }
                     this[i, j] = b;
                 }
+
+            LastSwipeTranslations = translations;
+
             return result;
         }
 

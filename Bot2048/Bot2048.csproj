@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BotGameController.cs" />
+    <Compile Include="Bots\NaiveBot.cs" />
     <Compile Include="Bots\RandomBot.cs" />
     <Compile Include="Extentions.cs" />
     <Compile Include="GameGrid.cs" />

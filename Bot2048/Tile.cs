@@ -1,4 +1,6 @@
-﻿namespace Bot2048
+﻿using System.Numerics;
+
+namespace Bot2048
 {
     public struct Tile
     {
@@ -6,6 +8,7 @@
         {
             value = number;
             WasStacked = false;
+            Translation = Vector2.Zero;
         }
 
         private int value;
@@ -18,6 +21,7 @@
         }
 
         internal bool WasStacked { get; set; }
+        internal Vector2 Translation { get; set; }
         public int Power { get => value; }
 
         public override bool Equals(object obj)

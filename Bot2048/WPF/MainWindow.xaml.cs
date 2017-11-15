@@ -13,6 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Bot2048;
+using System.Windows.Media.Animation;
+using System.Numerics;
+using System.Windows.Threading;
 
 namespace Bot2048.WPF
 {
@@ -27,11 +30,20 @@ namespace Bot2048.WPF
             record = g;
             recordEnumerator = g.GetEnumerator();
             grid = new GameGrid(4, 4);
+            Autoplay = false;
+            NextStep();
         }
 
         GameGrid grid;
         GameRecord record;
         IEnumerator<GameRecordItem> recordEnumerator;
+        List<DoubleAnimation> translateAnimations = new List<DoubleAnimation>();
+        List<TranslateTransform> translateTransforms = new List<TranslateTransform>();
+        DispatcherTimer stepTimer;
+        private int animationCount;
+
+        public bool Autoplay { get; set; }
+        public bool IsAnimationActive { get; private set; }
 
         private Color[] tileColors = new Color[]
         {
@@ -55,16 +67,30 @@ namespace Bot2048.WPF
 
         private bool NextStep()
         {
+            //if (IsAnimationActive)
+              //  return false;
             if (recordEnumerator.MoveNext())
             {
                 var i = recordEnumerator.Current;
                 grid.Swipe(i.Direction);
                 grid[i.SpawnPos] = new Tile(i.SpawnPower);
-                DrawGrid(grid);
+
+                IsAnimationActive = true;
+                var translations = grid.LastSwipeTranslations;
+                
+
+                foreach (var translation in translations)
+                {
+                    Vector2 d = translation.Item1 + translation.Item2;
+                    TranslateTile((int)translation.Item1.X, (int)translation.Item1.Y, (int)d.X, (int)d.Y);
+                }
+                if (translations.Count == 0)
+                    TranslateFinished();
                 return true;
             }
             return false;
         }
+
 
         private void DrawGrid(GameGrid grid)
         {
@@ -75,13 +101,115 @@ namespace Bot2048.WPF
                     tileColors[Math.Min(tileColors.Length - 1, tile.Power)],
                     textColors[Math.Min(textColors.Length - 1, tile.Power)]);
             }
+            scoreText.Text = string.Format("Score: {0}", grid.Score);
         }
 
         private void SetTile(int x, int y, string text, Color backgroundColor, Color textColor)
         {
-            GetRect(x, y).Fill = new SolidColorBrush(backgroundColor);
-            GetTxt(x, y).Foreground = new SolidColorBrush(textColor);
-            GetTxt(x, y).Text = text;
+            var rect = GetRect(x, y);
+            rect.Fill = new SolidColorBrush(backgroundColor);
+            rect.RenderTransform = Transform.Identity;
+            rect.SetValue(Panel.ZIndexProperty, 0);
+            var txt = GetTxt(x, y);
+            txt.Foreground = new SolidColorBrush(textColor);
+            txt.Text = text;
+            var txtBox = ((Viewbox)txt.Parent);
+            txtBox.SetValue(Panel.ZIndexProperty, 0);
+            txtBox.RenderTransform = Transform.Identity;
+        }
+
+        private void TranslateTile(int x1, int y1, int x2, int y2)
+        {
+            var rectTransform = new TranslateTransform();
+            var rect = GetRect(x1, y1);
+            rect.RenderTransform = rectTransform;
+            rect.SetValue(Grid.ZIndexProperty, 2);
+            var toRect = GetRect(x2, y2);
+
+            var txtBox = (Viewbox)GetTxt(x1, y1).Parent;
+            txtBox.RenderTransform = rectTransform;
+            txtBox.SetValue(Grid.ZIndexProperty, 3);
+
+            var time = TimeSpan.FromSeconds(0.2);
+
+            var xRectAnimation = new DoubleAnimation()
+            {
+                From = 0,
+                To = toRect.TranslatePoint(new Point(0, 0), rect).X,
+                Duration = new Duration(time),
+                DecelerationRatio = 0.5,
+                AccelerationRatio = 0.5,
+            };
+
+            var yRectAnimation = new DoubleAnimation()
+            {
+                From = 0,
+                To = toRect.TranslatePoint(new Point(0, 0), rect).Y,
+                Duration = new Duration(time),
+                DecelerationRatio = 0.5,
+                AccelerationRatio = 0.5,
+            };
+
+            if (xRectAnimation.To != 0)
+            {
+                xRectAnimation.Completed += rectTranslateAnimation_Completed;
+                rectTransform.BeginAnimation(TranslateTransform.XProperty, xRectAnimation);
+
+                animationCount++;
+            }
+
+            if (yRectAnimation.To != 0)
+            {
+                yRectAnimation.Completed += rectTranslateAnimation_Completed;
+                rectTransform.BeginAnimation(TranslateTransform.YProperty, yRectAnimation);
+
+                animationCount++;
+            }
+            
+
+            
+            /*var toTxt = GetTxt(x2, y2);
+
+            var xTxtAnimation = new DoubleAnimation()
+            {
+                From = 0,
+                To = toTxt.TranslatePoint(new Point(0, 0), txt).X,
+                Duration = new Duration(TimeSpan.FromSeconds(0.8)),
+                DecelerationRatio = 0.5,
+                AccelerationRatio = 0.5,
+                RepeatBehavior = RepeatBehavior.Forever,
+                AutoReverse = true,
+            };
+
+            var yTxtAnimation = new DoubleAnimation()
+            {
+                From = 0,
+                To = toTxt.TranslatePoint(new Point(0, 0), txt).Y,
+                Duration = new Duration(TimeSpan.FromSeconds(0.8)),
+                DecelerationRatio = 0.5,
+                AccelerationRatio = 0.5,
+                RepeatBehavior = RepeatBehavior.Forever,
+                AutoReverse = true,
+            };
+
+            txtTransform.BeginAnimation(TranslateTransform.XProperty, xTxtAnimation);
+            txtTransform.BeginAnimation(TranslateTransform.YProperty, yTxtAnimation);*/
+        }
+
+        private void rectTranslateAnimation_Completed(object sender, EventArgs e)
+        {
+            TranslateFinished();
+        }
+
+        private void TranslateFinished()
+        {
+            IsAnimationActive = false;
+            DrawGrid(grid);
+            if (Autoplay)
+            {
+                //NextStep();
+                
+            }
         }
 
         #region crutch~
@@ -218,7 +346,15 @@ namespace Bot2048.WPF
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            NextStep();
+            if (stepTimer == null)
+            stepTimer = new DispatcherTimer(TimeSpan.FromSeconds(0.3), DispatcherPriority.Send, (s, a) =>
+            { if (grid.IsGameOver) stepTimer.Stop(); else NextStep(); }, Dispatcher);
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (Autoplay)
+                NextStep();
         }
     }
 }

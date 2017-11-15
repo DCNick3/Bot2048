@@ -6,10 +6,19 @@
              xmlns:local="clr-namespace:Bot2048.WPF"
              mc:Ignorable="d" 
             Title="2048~" 
-       Mouse.MouseDown="Window_MouseDown">
+       Mouse.MouseDown="Window_MouseDown"
+        Loaded="Window_Loaded">
     <Grid Background="#FBF8EF">
-        <Viewbox Stretch="Uniform" x:Name="MainView">
-            <Grid Width="800" Height="800" Margin="40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+        <Viewbox>
+            <TextBlock Grid.Row="0" Grid.RowSpan="1" x:Name="scoreText" Text="Hello" />
+        </Viewbox>
+        <Viewbox Grid.Row="1" Grid.RowSpan="1" Stretch="Uniform" x:Name="mainView">
+            <Grid Width="800" Height="800" Margin="40" x:Name="gameGridControl">
+                
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="10"></ColumnDefinition>
                     <ColumnDefinition Width="1*"></ColumnDefinition>
@@ -35,8 +44,25 @@
                         <Setter Property="HorizontalAlignment" Value="Stretch"/>
                         <Setter Property="VerticalAlignment" Value="Stretch"/>
                     </Style>
+                    <Style TargetType="Viewbox" x:Key="textViewbox">
+                        <Setter Property="Margin" Value="30" />
+                    </Style>
                 </Grid.Resources>
-                <Rectangle Grid.ColumnSpan="6" Grid.RowSpan="6" Fill="#BBADA0" RadiusX="8px" RadiusY="8px"/>
+                <Rectangle x:Name="grid_bg_rect" Grid.ColumnSpan="6" Grid.RowSpan="6" Fill="#BBADA0" RadiusX="8px" RadiusY="8px">
+                    <!--<Rectangle.Triggers>
+                        <EventTrigger RoutedEvent="Rectangle.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <VectorAnimation 
+                                        Storyboard.TargetName="brect_1_1"
+                                        Storyboard.TargetProperty="VisualOffset"
+                                        From="1,1" To="10,10" Duration="0:0:2"
+                                        AutoReverse="True" RepeatBehavior="Forever"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Rectangle.Triggers>-->
+                </Rectangle>
                 <Rectangle x:Name="brect_1_1"  Grid.Column="1" Grid.Row="1" Style="{ StaticResource tileStyle}" />
                 <Rectangle x:Name="brect_1_2"  Grid.Column="2" Grid.Row="1" Style="{ StaticResource tileStyle}" />
                 <Rectangle x:Name="brect_1_3"  Grid.Column="3" Grid.Row="1" Style="{ StaticResource tileStyle}" />
@@ -71,52 +97,52 @@
                 <Rectangle x:Name="rect_4_3"  Grid.Column="3" Grid.Row="4" Style="{ StaticResource tileStyle}" />
                 <Rectangle x:Name="rect_4_4"  Grid.Column="4" Grid.Row="4" Style="{ StaticResource tileStyle}" />
 
-                <Viewbox Grid.Column="1" Grid.Row="1" Margin="30" >
+                <Viewbox Grid.Column="1" Grid.Row="1" Style="{ StaticResource textViewbox}" >
                     <TextBlock x:Name="txt_1_1"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="2" Grid.Row="1" Margin="30" >
+                <Viewbox Grid.Column="2" Grid.Row="1" Style="{ StaticResource textViewbox}" >
                     <TextBlock x:Name="txt_1_2"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="3" Grid.Row="1" Margin="30" >
+                <Viewbox Grid.Column="3" Grid.Row="1" Style="{ StaticResource textViewbox}" >
                     <TextBlock x:Name="txt_1_3"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="4" Grid.Row="1" Margin="30" >
+                <Viewbox Grid.Column="4" Grid.Row="1" Style="{ StaticResource textViewbox}" >
                     <TextBlock x:Name="txt_1_4"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="1" Grid.Row="2" Margin="30" >
+                <Viewbox Grid.Column="1" Grid.Row="2" Style="{ StaticResource textViewbox}" >
                     <TextBlock x:Name="txt_2_1"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="2" Grid.Row="2" Margin="30" >
+                <Viewbox Grid.Column="2" Grid.Row="2" Style="{ StaticResource textViewbox}" >
                     <TextBlock x:Name="txt_2_2"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="3" Grid.Row="2" Margin="30" >
+                <Viewbox Grid.Column="3" Grid.Row="2" Style="{ StaticResource textViewbox}" >
                     <TextBlock x:Name="txt_2_3"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="4" Grid.Row="2" Margin="30" >
+                <Viewbox Grid.Column="4" Grid.Row="2" Style="{ StaticResource textViewbox}" >
                     <TextBlock x:Name="txt_2_4"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="1" Grid.Row="3" Margin="30" >
+                <Viewbox Grid.Column="1" Grid.Row="3" Style="{ StaticResource textViewbox}" >
                     <TextBlock x:Name="txt_3_1"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="2" Grid.Row="3" Margin="30" >
+                <Viewbox Grid.Column="2" Grid.Row="3" Style="{ StaticResource textViewbox}" >
                     <TextBlock x:Name="txt_3_2"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="3" Grid.Row="3" Margin="30" >
+                <Viewbox Grid.Column="3" Grid.Row="3" Style="{ StaticResource textViewbox}" >
                     <TextBlock x:Name="txt_3_3"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="4" Grid.Row="3" Margin="30" >
+                <Viewbox Grid.Column="4" Grid.Row="3" Style="{ StaticResource textViewbox}" >
                     <TextBlock x:Name="txt_3_4"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="1" Grid.Row="4" Margin="30" >
+                <Viewbox Grid.Column="1" Grid.Row="4" Style="{ StaticResource textViewbox}" >
                     <TextBlock x:Name="txt_4_1"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="2" Grid.Row="4" Margin="30" >
+                <Viewbox Grid.Column="2" Grid.Row="4" Style="{ StaticResource textViewbox}" >
                     <TextBlock x:Name="txt_4_2"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="3" Grid.Row="4" Margin="30" >
+                <Viewbox Grid.Column="3" Grid.Row="4" Style="{ StaticResource textViewbox}" >
                     <TextBlock x:Name="txt_4_3"></TextBlock>
                 </Viewbox>
-                <Viewbox Grid.Column="4" Grid.Row="4" Margin="30" >
+                <Viewbox Grid.Column="4" Grid.Row="4" Style="{ StaticResource textViewbox}" >
                     <TextBlock x:Name="txt_4_4"></TextBlock>
                 </Viewbox>
             </Grid>
