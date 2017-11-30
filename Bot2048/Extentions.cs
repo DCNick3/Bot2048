@@ -13,5 +13,10 @@ namespace Bot2048
             int index = rand.Next(0, enumerable.Count());
             return enumerable.ElementAt(index);
         }
+
+        public static IEnumerable<Direction> EnumDirections()
+        {
+            return Enum.GetValues(typeof(Direction)).Cast<Direction>();
+        }
     }
 }

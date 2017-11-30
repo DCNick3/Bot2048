@@ -51,6 +51,13 @@ namespace Bot2048
         }
 
         public int Width { get { return gameArea.GetLength(0); } }
+
+        public bool CanSwipe(Direction direction)
+        {
+            var g = Clone();
+            return g.Swipe(direction);
+        }
+
         public int Height { get { return gameArea.GetLength(1); } }
         public Vector2 Size { get { return new Vector2(Width, Height); } }
         public int Score { get; private set; }

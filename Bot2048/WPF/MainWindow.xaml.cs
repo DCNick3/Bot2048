@@ -49,7 +49,7 @@ namespace Bot2048.WPF
         {
             Color.FromRgb(204, 192, 179),
             Color.FromRgb(238, 228, 218),
-            Color.FromRgb(237, 224, 100),
+            Color.FromRgb(237, 224, 200),
             Color.FromRgb(242, 177, 121),
             Color.FromRgb(245, 149, 99),
             Color.FromRgb(245, 124, 95),
@@ -60,6 +60,7 @@ namespace Bot2048.WPF
         };
         private Color[] textColors = new Color[]
         {
+            Color.FromRgb(119, 110, 101),
             Color.FromRgb(119, 110, 101),
             Color.FromRgb(119, 110, 101),
             Color.FromRgb(249, 247, 243),
